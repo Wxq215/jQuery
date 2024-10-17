@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <title>用户注册与登录</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }  
+
+      .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            margin: 0 auto;
+        }
+ 
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 80%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+      
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="login-form" class="form-container" style="display: block;">
+        <h2>登录</h2>
+        <form action="login_process.php" method="post">
+            <label for="login_username">用户名</label>
+            <input type="text" id="login_username" name="login_username">
+            <label for="login_password">密码</label>
+            <input type="password" id="login_password" name="login_password">
+            <input type="submit" value="登录">
+        </form>
+        <p>没有账号？<a href="#" onclick="toggleForms()">注册</a></p>
+    </div>
+    <div id="register-form" class="form-container" style="display: none;">
+        <h2>注册</h2>
+        <form action="register_process.php" method="post">
+            <label for="register_username">用户名</label>
+            <input type="text" id="register_username" name="register_username">
+            <label for="register_password">密码</label>
+            <input type="password" id="register_password" name="register_password">
+            <label for="confirm_password">确认密码</label>
+            <input type="password" id="confirm_password" name="confirm_password">
+            <label for="register_email">邮箱</label>
+            <input type="email" id="register_email" name="register_email">
+            <input type="submit" value="注册">
+        </form>
+        <p>已有账号？<a href="#" onclick="toggleForms()">登录</a></p>
+    </div>
+    <script>
+        function toggleForms() {
+            var loginForm = document.getElementById('login-form');
+            var registerForm = document.getElementById('register-form');
+            loginForm.style.display = loginForm.style.display === 'block'? 'none' : 'block';
+            registerForm.style.display = registerForm.style.display === 'block'? 'none' : 'block';
+        }
+    </script>
+</body>
+
+</html>
