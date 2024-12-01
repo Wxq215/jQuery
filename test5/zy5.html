@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>工作打卡系统 v1.0</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+       .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            position: relative;
+          
+        }
+        .box1 {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 50px;
+            background-color:lightskyblue;
+            color: white;
+            border-radius: 50px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .box1:hover {
+            background-color: #0056b3;
+        }
+
+
+       .sidebar {
+            float: left;
+            width: 20%;
+            height: 100%;
+            padding: 10px;
+            background-color: #e0e0e0;
+            transition: background-color 0.3s;
+          
+        }
+
+       .sidebar:hover {
+            background-color: #ccc;
+            
+        }
+
+       .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+       .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+       .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+            
+        }
+
+       .sidebar ul li a:hover {
+            color: #007bff;
+           
+        }
+
+       .content {
+            float: right;
+            width: 60%;
+            padding: 20px;
+            transition: box-shadow 0.3s;
+            
+        }
+
+       .content:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            
+        }
+
+       .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+       .form-group {
+            margin-bottom: 20px;
+        }
+
+       .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+       .form-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+          
+        }
+
+       .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+       .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+       .button:hover {
+            background-color: #0056b3;
+        }
+
+       .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+       .table th,
+       .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            transition: background-color 0.3s;
+          
+        }
+
+       .table th {
+            background-color: #f2f2f2;
+        }
+
+       .table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .hidden-content {
+            display: none;
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+      .employee-info-hidden {
+            display: none;
+        }
+    </style>
+    <script src="jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mockjs@1.1.0/dist/mock.min.js"></script>
+    <script>
+           $(document).ready(function () {
+         
+            $(".box1").click(function () {
+                $(".hidden-content").toggle();
+            });
+
+            
+            $(".sidebar ul li:has(a[href='#'])").click(function () {
+                $(".employee-info-hidden").toggle();
+            });
+        });
+        $(document).ready(function () {
+       
+            var data = Mock.mock({
+                'employees|10': [{
+                    'name': '@cname',
+                    'id': '@id',
+                    'clockInTime': '@datetime'
+                }]
+            }).employees;
+
+           
+            var tableBody = $('table.table tbody');
+            $.each(data, function (index, item) {
+                tableBody.append(
+                    '<tr>' +
+                    '<td>' + item.name + '</td>' +
+                    '<td>' + item.id + '</td>' +
+                    '<td>' + item.clockInTime + '</td>' +
+                    '<td><button class="edit-btn">编辑</button>          <button class="delete-btn">删除</button></td>' +
+                    '</tr>'
+                );
+            });
+        });
+        $(document).on('click', '.edit-btn', function () {
+                var $row = $(this).closest('tr');
+                var name = $row.find('td').eq(0).text();
+                var id = $row.data('id');
+                var clockInTime = $row.find('td').eq(2).text();
+
+                $('#employee-name').val(name);
+                $('#employee-id').val(id);
+                $('#clock-in-time').val(clockInTime);
+
+             
+            });
+
+            $(document).on('click', '.delete-btn', function () {
+                var $row = $(this).closest('tr');
+                $row.remove();
+            });
+        
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box1">WXQ</div>
+        <div class="sidebar">
+            <ul>
+                <li><a href="#">员工信息管理</a>
+                    <ul>
+                        <li class="employee-info-hidden"><a href="#">姓名</a></li>
+                        <li class="employee-info-hidden"><a href="#">工号</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">打卡记录管理</a></li>
+                <li><a href="#">部门管理</a></li>
+                <li><a href="#">考勤统计</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="header">
+                <h1>工作打卡系统 v1.0</h1>
+            </div>
+            <div class="form-group">
+                <label for="employee-name">姓名</label>
+                <input type="text" id="employee-name" name="employee-name">
+            </div>
+            <div class="form-group">
+                <label for="employee-id">工号</label>
+                <input type="text" id="employee-id" name="employee-id">
+            </div>
+            <div class="form-group">
+                <label for="clock-in-time">打卡时间</label>
+                <input type="text" id="clock-in-time" name="clock-in-time">
+            </div>
+            <button type="button" class="button">打卡</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>工号</th>
+                        <th>打卡时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+               </tbody>
+                <div class="hidden-content">
+                    <p><a href="#">修改个人信息</a></p>
+                    <p><a href="#">退出登录</a></p>
+                    <p><a href="#">设置</a></p>
+                </div>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+  
+
